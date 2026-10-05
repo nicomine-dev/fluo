@@ -1,0 +1,12 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/descargar", "destination": "/api/go?a=setup" },
+    { "source": "/portable", "destination": "/api/go?a=portable" }
+  ],
+  "redirects": [
+    { "source": "/instalar", "destination": "https://github.com/nicomine-dev/fluo/releases/latest/download/Instalar.bat", "permanent": false },
+    { "source": "/github", "destination": "https://github.com/nicomine-dev/fluo", "permanent": false },
+    { "source": "/releases", "destination": "https://github.com/nicomine-dev/fluo/releases/latest", "permanent": false }
+  ]
+}

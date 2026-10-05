@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fluo · Marcá tus PDFs como un libro de papel</title>
+<meta name="description" content="Fluo: resaltá, subrayá y dibujá sobre tus PDFs. Gratis, liviano y para Windows 7, 8, 10 y 11. Descargalo e instalalo en dos minutos.">
+<meta property="og:title" content="Fluo · Marcá tus PDFs como un libro de papel">
+<meta property="og:description" content="Resaltá, subrayá y dibujá sobre tus PDFs. Gratis y liviano, anda hasta en netbooks viejas.">
+<meta property="og:image" content="https://fluo.vercel.app/fluo.png">
+<link rel="icon" href="/fluo.png">
+<style>
+  :root {
+    --bg: #fffdf5;
+    --paper: #ffffff;
+    --ink: #1f2328;
+    --ink-soft: #5c6470;
+    --line: #e6e2d3;
+    --fluo: #ffe63c;
+    --fluo-deep: #e8c900;
+    --pen: #de3838;
+    --font: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font: 17px/1.55 var(--font);
+    padding: 0 18px 64px;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; }
+  header { padding: 56px 0 28px; text-align: center; }
+  .logo { display: inline-flex; align-items: center; gap: 14px; }
+  .logo img { width: 72px; height: 72px; }
+  .logo h1 { font-size: 56px; margin: 0; letter-spacing: -1px; }
+  .tagline { font-size: 22px; margin: 14px auto 0; max-width: 32ch; color: var(--ink); }
+  .tagline mark { background: linear-gradient(transparent 35%, var(--fluo) 35%, var(--fluo) 92%, transparent 92%); padding: 0 3px; }
+  .sub { color: var(--ink-soft); margin-top: 10px; }
+
+  .cta { display: flex; flex-direction: column; align-items: center; gap: 14px; margin: 30px 0 10px; }
+  .btn {
+    display: inline-block; text-decoration: none; font-weight: 700; border-radius: 12px;
+    padding: 16px 28px; font-size: 20px; color: var(--ink); background: var(--fluo);
+    border: 2px solid var(--fluo-deep); box-shadow: 0 3px 0 var(--fluo-deep);
+    transition: transform .08s ease;
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn:active { transform: translateY(2px); box-shadow: none; }
+  .btn small { display: block; font-weight: 400; font-size: 14px; color: var(--ink-soft); margin-top: 2px; }
+  .alt { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 22px; font-size: 16px; }
+  .alt a { color: var(--ink); }
+  .req { text-align: center; color: var(--ink-soft); font-size: 15px; margin-top: 10px; }
+
+  section { margin-top: 48px; }
+  h2 { font-size: 26px; margin: 0 0 14px; letter-spacing: -.3px; }
+  ol.steps { list-style: none; counter-reset: paso; margin: 0; padding: 0; display: grid; gap: 10px; }
+  ol.steps li {
+    counter-increment: paso; position: relative; padding: 14px 16px 14px 58px;
+    background: var(--paper); border: 1px solid var(--line); border-radius: 10px;
+  }
+  ol.steps li::before {
+    content: counter(paso); position: absolute; left: 14px; top: 12px;
+    width: 30px; height: 30px; border-radius: 50%; background: var(--fluo);
+    display: grid; place-items: center; font-weight: 700;
+  }
+  ol.steps b { font-weight: 700; }
+  .note {
+    background: var(--paper); border-left: 5px solid var(--fluo); padding: 14px 18px;
+    border-radius: 0 10px 10px 0; margin-top: 14px;
+  }
+  .note.red { border-left-color: var(--pen); }
+  .kbd { font-family: ui-monospace, Consolas, monospace; background: #f1efe6; border: 1px solid var(--line); border-radius: 5px; padding: 1px 6px; font-size: 15px; }
+  details { margin-top: 10px; }
+  summary { cursor: pointer; font-weight: 700; }
+  footer { margin-top: 56px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--ink-soft); font-size: 15px; text-align: center; }
+  footer a { color: var(--ink); }
+  @media (max-width: 480px) {
+    header { padding-top: 36px; }
+    .logo h1 { font-size: 44px; }
+    .logo img { width: 56px; height: 56px; }
+    .tagline { font-size: 19px; }
+    .btn { width: 100%; text-align: center; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="logo">
+    <img src="/fluo.png" alt="" width="72" height="72">
+    <h1>Fluo</h1>
+  </div>
+  <p class="tagline"><mark>Resaltá, subrayá y dibujá</mark> sobre tus PDFs como si fueran un libro de papel.</p>
+  <p class="sub">Gratis y de código abierto. Liviano: anda hasta en las netbooks del gobierno.</p>
+
+  <div class="cta">
+    <a class="btn" id="dl" href="/descargar">Descargar Fluo para Windows<small id="dl-info">Instalador · última versión</small></a>
+    <div class="alt">
+      <a href="/instalar">Instalar en un clic (Instalar.bat)</a>
+      <a href="/portable" id="portable">Versión portable (.zip)</a>
+      <a href="/releases">Todas las versiones</a>
+    </div>
+  </div>
+  <p class="req">Windows 7 SP1, 8, 8.1, 10 y 11 · 32 y 64 bits · 120 MB libres · no pide administrador</p>
+</header>
+
+<section id="instalar">
+  <h2>Cómo instalarlo</h2>
+  <ol class="steps">
+    <li>Tocá <b>Descargar Fluo para Windows</b>. Se baja un archivo que se llama <b>Fluo-Setup-…exe</b>.</li>
+    <li>Abrilo desde la carpeta <b>Descargas</b> con doble clic.</li>
+    <li>Si aparece un cartel azul que dice <b>«Windows protegió tu PC»</b>, tocá <b>Más información</b> y después <b>Ejecutar de todas formas</b>. Aparece porque el programa es nuevo y no está firmado; es normal.</li>
+    <li>En el asistente tocá <b>Siguiente</b>, dejá marcada la casilla <b>«Crear un acceso directo en el escritorio»</b> y tocá <b>Instalar</b>.</li>
+    <li>Al terminar, dejá marcado <b>«Ejecutar Fluo»</b> y tocá <b>Finalizar</b>. La app se abre sola.</li>
+    <li>Listo. Fluo queda en el escritorio y en el menú Inicio. Cuando haya una versión nueva, te avisa al abrir y se actualiza sola si le decís que sí.</li>
+  </ol>
+
+  <div class="note">
+    <b>Abrí esta página en la compu donde lo vas a instalar.</b> Si la estás viendo en el celular, mandate el link y abrilo en la PC.
+  </div>
+
+  <details>
+    <summary>Instalar en un clic con Instalar.bat</summary>
+    <p>Bajá <a href="/instalar">Instalar.bat</a> y hacé doble clic. Se abre una ventana negra que baja la última versión, la instala y abre Fluo al final. Si Windows muestra el cartel azul, mismo truco: «Más información» y «Ejecutar de todas formas». Funciona en Windows 8 en adelante.</p>
+  </details>
+
+  <details>
+    <summary>Sin internet en la netbook (pendrive)</summary>
+    <p>En otra compu bajá la <a href="/portable">versión portable (.zip)</a>, copiala a un pendrive, en la netbook hacé clic derecho y «Extraer todo», entrá a la carpeta y abrí <b>Fluo.exe</b>. No instala nada.</p>
+  </details>
+
+  <details>
+    <summary>Si tenés Windows 7</summary>
+    <p>Usá el instalador normal, descargado desde el navegador. El Instalar.bat no funciona en Windows 7 porque trae un PowerShell viejo. Hace falta Windows 7 <b>SP1 con las actualizaciones de Windows Update</b> instaladas.</p>
+  </details>
+</section>
+
+<section id="usar">
+  <h2>Cómo se usa</h2>
+  <ol class="steps">
+    <li>Tocá <b>Agregar PDFs…</b> o arrastrá tus PDFs a la ventana. Podés armar varias bibliotecas, como carpetas.</li>
+    <li>Doble clic en un PDF para abrirlo.</li>
+    <li>Elegí una herramienta arriba: <b>Resaltar</b>, <b>Subrayar</b>, <b>Tachar</b>, <b>Lápiz</b>, <b>Marcador</b> o <b>Goma</b>, y marcá. El marcador sirve también en páginas escaneadas.</li>
+    <li><span class="kbd">Ctrl+S</span> la primera vez te pregunta: <b>«Crear copia marcada»</b> guarda un PDF nuevo al lado del original, que queda intacto. Las marcas se ven en cualquier lector de PDF.</li>
+  </ol>
+  <div class="note red">
+    <b>Para seguir otro día:</b> abrí la copia marcada desde la biblioteca. Las marcas se cargan y las podés seguir editando o borrar con la goma.
+  </div>
+</section>
+
+<footer>
+  <p>Hecho por Nicolás Miné en Argentina · <a href="/github">Código en GitHub</a> · <span id="ver"></span></p>
+</footer>
+
+</div>
+<script>
+  // Completa versión y tamaño del instalador con el último release de GitHub.
+  (async () => {
+    try {
+      const r = await fetch("https://api.github.com/repos/nicomine-dev/fluo/releases/latest", { headers: { Accept: "application/vnd.github+json" } });
+      if (!r.ok) return;
+      const rel = await r.json();
+      const setup = (rel.assets || []).find(a => /^Fluo-Setup-.*\.exe$/i.test(a.name));
+      const version = (rel.tag_name || "").replace(/^v/, "");
+      if (setup) {
+        document.getElementById("dl-info").textContent = `Versión ${version} · ${(setup.size / 1048576).toFixed(0)} MB`;
+      }
+      if (version) document.getElementById("ver").textContent = `Versión ${version}`;
+    } catch (e) { /* sin red o sin API: los links igual funcionan */ }
+  })();
+</script>
+</body>
+</html>
