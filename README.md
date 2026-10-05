@@ -86,6 +86,20 @@ scripts/install.ps1        instalador en un paso desde GitHub
 .github/workflows/         tests en cada push; release al pushear un tag v*
 ```
 
+## Sitio de descarga (Vercel)
+
+La carpeta `site/` es la página https://fluo-pdf.vercel.app: HTML estático más una función
+(`site/api/go.js`) que redirige `/descargar` y `/portable` al archivo del último release.
+Se despliega a mano desde esa carpeta, con el CLI logueado en la cuenta personal:
+
+```powershell
+cd site
+vercel --prod
+```
+
+Si algún día querés que se despliegue solo al pushear, conectá el repo desde el panel de
+Vercel (proyecto `fluo`, Settings, Git) y poné `site` como Root Directory.
+
 ## Publicar una versión
 
 1. Subir `__version__` en `fluo/__init__.py`.
