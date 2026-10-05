@@ -23,6 +23,10 @@ poca RAM, disco mecánico): render nativo con MuPDF y UI en Qt. Corre en
 
 ## Instalar (Windows 7 SP1 en adelante, 32 o 64 bits)
 
+Página de descarga para compartir: **https://fluo-pdf.vercel.app** (botón de descarga,
+paso a paso y notas para Windows 7). Los links `/descargar`, `/portable` e `/instalar`
+redirigen siempre a la última versión.
+
 Opción A, un clic: bajá [`Instalar.bat`](https://github.com/nicomine-dev/fluo/releases/latest/download/Instalar.bat) y hacé doble clic.
 
 Opción B, PowerShell:
