@@ -21,7 +21,7 @@ Celeron, poca RAM, disco mecánico): render nativo con MuPDF y UI en Qt.
 
 ## Instalar (Windows 10 o más, 64 bits)
 
-Opción A, un clic: bajá [`Instalar.bat`](scripts/Instalar.bat) y hacé doble clic.
+Opción A, un clic: bajá [`Instalar.bat`](https://github.com/nicomine-dev/fluo/releases/latest/download/Instalar.bat) y hacé doble clic.
 
 Opción B, PowerShell:
 

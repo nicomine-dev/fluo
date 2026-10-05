@@ -79,6 +79,7 @@ jobs:
           files: |
             dist/Fluo-Setup-*.exe
             dist/Fluo-*-portable.zip
+            scripts/Instalar.bat
 
       - name: Guardar artefactos (sin tag)
         uses: actions/upload-artifact@v4
