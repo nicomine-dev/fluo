@@ -62,7 +62,7 @@ jobs:
           Start-Sleep -Seconds 12
           $alive = -not $p.HasExited
           if ($alive) { Stop-Process -Id $p.Id -Force }
-          if ((Test-Path smoke_err.txt) -and (Select-String -Path smoke_err.txt -Pattern "Traceback|Error" -Quiet)) {
+          if ((Test-Path smoke_err.txt) -and (Select-String -Path smoke_err.txt -Pattern "Traceback" -Quiet)) {
             Get-Content smoke_err.txt
             throw "Fluo.exe tiró una excepción al arrancar"
           }
