@@ -1,0 +1,9 @@
+[project]
+name = "fluo"
+version = "0.1.0"
+description = "Resalta, dibuja y marca PDFs como si fueran un libro de papel."
+requires-python = ">=3.10"
+dependencies = ["PySide6>=6.6", "PyMuPDF>=1.24"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
