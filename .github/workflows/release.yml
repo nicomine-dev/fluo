@@ -56,7 +56,7 @@ jobs:
         run: |
           $exe = "dist/Fluo/Fluo.exe"
           if (-not (Test-Path $exe)) { throw "No se generó $exe" }
-          $log = Join-Path $env:LOCALAPPDATA "Fluoluo.log"
+          $log = Join-Path $env:LOCALAPPDATA "Fluo/fluo.log"
           if (Test-Path $log) { Remove-Item $log }
           $p = Start-Process -FilePath $exe -PassThru -RedirectStandardError smoke_err.txt
           Start-Sleep -Seconds 12
