@@ -34,6 +34,8 @@ $sizeMb = [math]::Round($asset.size / 1MB, 1)
 $out = Join-Path $env:TEMP $asset.name
 Write-Host "  Descargando $($asset.name) ($sizeMb MB) ..."
 Invoke-WebRequest -Uri $asset.browser_download_url -OutFile $out -UseBasicParsing -Headers $headers
+# Saca la marca "descargado de internet" para que SmartScreen no bloquee la instalacion silenciosa.
+Unblock-File -Path $out -ErrorAction SilentlyContinue
 
 Write-Host "  Instalando ..."
 $proc = Start-Process -FilePath $out -ArgumentList "/SILENT", "/SP-", "/NORESTART" -Wait -PassThru
