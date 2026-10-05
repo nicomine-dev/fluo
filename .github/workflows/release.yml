@@ -14,9 +14,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Build universal de 32 bits con Python 3.8 + PySide2 (Qt 5): corre en
+      # Windows 7 SP1, 8, 8.1, 10 y 11, tanto de 32 como de 64 bits.
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: "3.8"
+          architecture: x86
           cache: pip
 
       - name: Instalar dependencias
@@ -45,18 +48,29 @@ jobs:
           fi
           echo "version=$version" >> "$GITHUB_OUTPUT"
 
-      - name: PyInstaller (onedir)
-        run: pyinstaller fluo.spec --noconfirm --clean
+      - name: PyInstaller (onedir, 32 bits)
+        run: python -m PyInstaller fluo.spec --noconfirm --clean
 
       - name: Humo del ejecutable
         shell: pwsh
         run: |
           $exe = "dist/Fluo/Fluo.exe"
           if (-not (Test-Path $exe)) { throw "No se generó $exe" }
-          $p = Start-Process -FilePath $exe -PassThru
-          Start-Sleep -Seconds 8
-          if ($p.HasExited) { throw "Fluo.exe se cerró solo con código $($p.ExitCode)" }
-          Stop-Process -Id $p.Id -Force
+          $log = Join-Path $env:LOCALAPPDATA "Fluoluo.log"
+          if (Test-Path $log) { Remove-Item $log }
+          $p = Start-Process -FilePath $exe -PassThru -RedirectStandardError smoke_err.txt
+          Start-Sleep -Seconds 12
+          $alive = -not $p.HasExited
+          if ($alive) { Stop-Process -Id $p.Id -Force }
+          if ((Test-Path smoke_err.txt) -and (Select-String -Path smoke_err.txt -Pattern "Traceback|Error" -Quiet)) {
+            Get-Content smoke_err.txt
+            throw "Fluo.exe tiró una excepción al arrancar"
+          }
+          if (-not $alive) { throw "Fluo.exe se cerró solo con código $($p.ExitCode)" }
+          if (-not (Test-Path $log) -or -not (Select-String -Path $log -Pattern "arranc" -Quiet)) {
+            throw "Fluo.exe no llegó a abrir la ventana (no hay línea de arranque en el log)"
+          }
+          Get-Content $log
 
       - name: Zip portable
         shell: pwsh

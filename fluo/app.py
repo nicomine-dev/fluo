@@ -2,11 +2,22 @@
 from __future__ import annotations
 
 import logging
+import platform
 import sys
 import traceback
 
-from PySide6.QtCore import QCoreApplication, QLibraryInfo, QLocale, Qt, QTranslator
-from PySide6.QtWidgets import QApplication, QMessageBox
+from .qt import (
+    QT_PACKAGE,
+    QApplication,
+    QCoreApplication,
+    QLocale,
+    QMessageBox,
+    QTranslator,
+    QtCore,
+    exec_,
+    setup_high_dpi,
+    translations_path,
+)
 
 from . import APP_NAME, ORG_NAME, __version__
 from .paths import log_file
@@ -35,7 +46,7 @@ def _install_excepthook() -> None:
             box.setWindowTitle(f"{APP_NAME}: error inesperado")
             box.setText("Pasó algo que no esperaba. Guardá tu trabajo si podés.")
             box.setDetailedText(text)
-            box.exec()
+            exec_(box)
 
     sys.excepthook = hook
 
@@ -43,7 +54,7 @@ def _install_excepthook() -> None:
 def _install_qt_translations(app: QApplication) -> None:
     """Botones estándar de Qt (Cancelar, Sí, No…) en castellano."""
     translator = QTranslator(app)
-    path = QLibraryInfo.path(QLibraryInfo.LibraryPath.TranslationsPath)
+    path = translations_path()
     if translator.load(QLocale("es"), "qtbase", "_", path):
         app.installTranslator(translator)
 
@@ -54,9 +65,7 @@ def main() -> int:
     QCoreApplication.setOrganizationName(ORG_NAME)
     QCoreApplication.setApplicationName(APP_NAME)
     QCoreApplication.setApplicationVersion(__version__)
-    QApplication.setHighDpiScaleFactorRoundingPolicy(
-        Qt.HighDpiScaleFactorRoundingPolicy.PassThrough
-    )
+    setup_high_dpi()
     app = QApplication(sys.argv)
     app.setStyle("Fusion")
     _install_qt_translations(app)
@@ -65,11 +74,16 @@ def main() -> int:
 
     window = MainWindow()
     window.show()
+    logging.getLogger("fluo").info(
+        "Fluo %s arrancó: %s %s, Python %s %s, %s",
+        __version__, QT_PACKAGE, QtCore.qVersion(), platform.python_version(),
+        platform.architecture()[0], platform.platform(),
+    )
     for arg in sys.argv[1:]:
         if arg.lower().endswith(".pdf"):
             window.open_pdf(arg, "")
             break
-    return app.exec()
+    return exec_(app)
 
 
 if __name__ == "__main__":

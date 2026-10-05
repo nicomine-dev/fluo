@@ -6,12 +6,15 @@ import subprocess
 import sys
 from pathlib import Path
 
-from PySide6.QtCore import QSize, Qt, Signal
-from PySide6.QtGui import QColor, QFont, QIcon, QImage, QPainter, QPen, QPixmap
-from PySide6.QtWidgets import (
+from ..qt import (
     QAbstractItemView,
+    QBrush,
+    QColor,
     QFileDialog,
+    QFont,
     QHBoxLayout,
+    QIcon,
+    QImage,
     QInputDialog,
     QLabel,
     QLineEdit,
@@ -20,10 +23,17 @@ from PySide6.QtWidgets import (
     QListWidgetItem,
     QMenu,
     QMessageBox,
+    QPainter,
+    QPen,
+    QPixmap,
     QPushButton,
+    QSize,
     QSplitter,
+    Qt,
     QVBoxLayout,
     QWidget,
+    Signal,
+    exec_,
 )
 
 from .store import RECENT_ID, LibraryStore, norm
@@ -308,7 +318,7 @@ class LibraryView(QWidget):
                     it.setIcon(icon)
             else:
                 it.setIcon(self._missing)
-                it.setForeground(QColor(150, 150, 150))
+                it.setForeground(QBrush(QColor(150, 150, 150)))
                 it.setToolTip(f"{path}\n(el archivo ya no está en esa ruta)")
             self.grid.addItem(it)
 
@@ -408,7 +418,7 @@ class LibraryView(QWidget):
             box.setInformativeText(path)
             remove_btn = box.addButton("Quitar de la lista", QMessageBox.DestructiveRole)
             box.addButton(QMessageBox.Close)
-            box.exec()
+            exec_(box)
             if box.clickedButton() is remove_btn:
                 self._remove_paths([path])
             return
@@ -441,7 +451,7 @@ class LibraryView(QWidget):
                 menu.addAction("Agregar PDFs…", self._add_pdfs)
                 menu.addAction("Agregar carpeta…", self._add_folder)
             if menu.actions():
-                menu.exec(self.grid.mapToGlobal(pos))
+                exec_(menu, self.grid.mapToGlobal(pos))
             return
         if not item.isSelected():
             self.grid.setCurrentItem(item)
@@ -466,7 +476,7 @@ class LibraryView(QWidget):
                     move.addAction(lib.name, lambda lid=lib.id: self._move_paths(paths, lid))
         menu.addSeparator()
         menu.addAction("Mostrar en el Explorador", lambda: self._show_in_explorer(paths[0]))
-        menu.exec(self.grid.mapToGlobal(pos))
+        exec_(menu, self.grid.mapToGlobal(pos))
 
     @staticmethod
     def _show_in_explorer(path: str) -> None:

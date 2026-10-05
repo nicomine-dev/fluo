@@ -4,8 +4,8 @@ from __future__ import annotations
 import logging
 
 import pymupdf
-from PySide6.QtCore import QMutex, QThread, QWaitCondition, Signal
-from PySide6.QtGui import QImage
+
+from ..qt import QImage, QMutex, QThread, QWaitCondition, Signal
 
 log = logging.getLogger(__name__)
 
@@ -91,9 +91,10 @@ class RenderWorker(QThread):
                     pix = page.get_pixmap(
                         matrix=pymupdf.Matrix(scale, scale), alpha=False, annots=False
                     )
-                    img = QImage(
-                        pix.samples, pix.width, pix.height, pix.stride, QImage.Format_RGB888
-                    ).copy()
+                    # El buffer tiene que seguir vivo hasta después del copy(): Qt 5 no lo retiene.
+                    data = pix.samples
+                    img = QImage(data, pix.width, pix.height, pix.stride, QImage.Format_RGB888).copy()
+                    del data
                     self.rendered.emit(pno, scale, img)
                 except Exception:
                     log.exception("Falló el render de la página %s", pno)

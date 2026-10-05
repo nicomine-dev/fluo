@@ -4,9 +4,26 @@ from __future__ import annotations
 import math
 from enum import Enum
 
-from PySide6.QtCore import QPoint, QPointF, QRect, QRectF, QSize, Qt, QTimer, Signal
-from PySide6.QtGui import QColor, QPainter, QPixmap, QTransform, QUndoCommand, QUndoStack
-from PySide6.QtWidgets import QFrame, QGraphicsScene, QGraphicsView
+from ..qt import (
+    QColor,
+    QFrame,
+    QGraphicsScene,
+    QGraphicsView,
+    QPainter,
+    QPixmap,
+    QPoint,
+    QPointF,
+    QRect,
+    QRectF,
+    QSize,
+    Qt,
+    QTimer,
+    QTransform,
+    QUndoCommand,
+    QUndoStack,
+    Signal,
+    event_pos,
+)
 
 from .document import PdfDocument
 from .items import AnnotItem, InkItem, PageItem, SelectionItem, make_item
@@ -311,7 +328,7 @@ class PdfView(QGraphicsView):
         if event.button() != Qt.LeftButton or self.tool == Tool.PAN:
             super().mousePressEvent(event)
             return
-        vp = event.position().toPoint()
+        vp = event_pos(event)
         sp = self.mapToScene(vp)
         page = self._page_at(sp)
         if page is None:
@@ -346,7 +363,7 @@ class PdfView(QGraphicsView):
     def mouseMoveEvent(self, event) -> None:
         if self._ink is not None:
             page, item = self._ink
-            pt = self._clamp(page, self._to_page(page, self.mapToScene(event.position().toPoint())))
+            pt = self._clamp(page, self._to_page(page, self.mapToScene(event_pos(event))))
             last = item.annot.points[-1]
             if math.hypot(pt.x() - last[0], pt.y() - last[1]) >= 0.5 / max(self.zoom, 0.01):
                 item.append_point(pt.x(), pt.y())
@@ -354,12 +371,12 @@ class PdfView(QGraphicsView):
             return
         if self._anchor is not None and self._selection is not None:
             page, anchor = self._anchor
-            pt = self._to_page(page, self.mapToScene(event.position().toPoint()))
+            pt = self._to_page(page, self.mapToScene(event_pos(event)))
             self._selection.set_rects(self._selection_quads(page.index, anchor, pt))
             event.accept()
             return
         if self._erasing:
-            self._erase_at(event.position().toPoint())
+            self._erase_at(event_pos(event))
             event.accept()
             return
         super().mouseMoveEvent(event)
@@ -376,7 +393,7 @@ class PdfView(QGraphicsView):
             return
         if self._anchor is not None:
             page, anchor = self._anchor
-            pt = self._to_page(page, self.mapToScene(event.position().toPoint()))
+            pt = self._to_page(page, self.mapToScene(event_pos(event)))
             quads = self._selection_quads(page.index, anchor, pt)
             self._clear_selection()
             self._anchor = None

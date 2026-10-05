@@ -34,7 +34,7 @@ def sample_pdf(tmp_path):
 
 @pytest.fixture(scope="session")
 def qapp():
-    from PySide6.QtWidgets import QApplication
+    from fluo.qt import QApplication
 
     app = QApplication.instance() or QApplication([])
     yield app
@@ -45,7 +45,7 @@ def wait_ms(ms: int) -> None:
     deja sin correr a los QThread con código Python)."""
     import time
 
-    from PySide6.QtWidgets import QApplication
+    from fluo.qt import QApplication
 
     deadline = time.monotonic() + ms / 1000
     while time.monotonic() < deadline:

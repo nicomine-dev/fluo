@@ -8,6 +8,14 @@
 $ErrorActionPreference = "Stop"
 $repo = "nicomine-dev/fluo"
 
+if ($PSVersionTable.PSVersion.Major -lt 3) {
+    Write-Host ""
+    Write-Host "  Este Windows tiene un PowerShell viejo (Windows 7 sin actualizar) y no puede bajar de GitHub." -ForegroundColor Yellow
+    Write-Host "  Baja el instalador desde el navegador: https://github.com/$repo/releases/latest"
+    Start-Process "https://github.com/$repo/releases/latest"
+    exit 2
+}
+
 try { [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12 } catch {}
 
 Write-Host ""

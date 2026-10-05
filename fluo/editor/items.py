@@ -1,18 +1,20 @@
 """Items de QGraphicsScene: página, capa de anotaciones y marcas dibujables."""
 from __future__ import annotations
 
-from PySide6.QtCore import QPointF, QRectF, Qt
-from PySide6.QtGui import (
+from ..qt import (
     QBrush,
     QColor,
+    QGraphicsItem,
     QPainter,
     QPainterPath,
     QPainterPathStroker,
     QPen,
     QPixmap,
+    QPointF,
+    QRectF,
+    Qt,
     QTransform,
 )
-from PySide6.QtWidgets import QGraphicsItem
 
 from .model import Annotation, InkStroke, TextMark, TextMarkKind
 

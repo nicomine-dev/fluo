@@ -7,10 +7,9 @@ import os
 from pathlib import Path
 
 import pymupdf
-from PySide6.QtCore import QMutex, QThread, QWaitCondition, Signal
-from PySide6.QtGui import QImage
 
 from ..paths import thumbs_dir
+from ..qt import QImage, QMutex, QThread, QWaitCondition, Signal
 
 log = logging.getLogger(__name__)
 
@@ -34,7 +33,10 @@ def render_thumbnail(path: str) -> QImage:
         page = doc[0]
         zoom = RENDER_W / max(page.rect.width, 1.0)
         pix = page.get_pixmap(matrix=pymupdf.Matrix(zoom, zoom), alpha=False)
-        return QImage(pix.samples, pix.width, pix.height, pix.stride, QImage.Format_RGB888).copy()
+        data = pix.samples  # mantener vivo el buffer hasta después del copy() (Qt 5 no lo retiene)
+        img = QImage(data, pix.width, pix.height, pix.stride, QImage.Format_RGB888).copy()
+        del data
+        return img
     finally:
         doc.close()
 

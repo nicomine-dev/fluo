@@ -1,10 +1,10 @@
 """Prueba de humo de la UI en modo offscreen: herramientas, deshacer, borrar, guardar."""
+import importlib
 import os
 
-from PySide6.QtCore import QEvent, QPoint, QPointF, Qt
-from PySide6.QtGui import QMouseEvent
-from PySide6.QtTest import QTest
-from PySide6.QtWidgets import QApplication
+from fluo.qt import QT_PACKAGE, QApplication, QEvent, QMouseEvent, QPoint, QPointF, Qt
+
+QTest = importlib.import_module(f"{QT_PACKAGE}.QtTest").QTest
 
 from fluo.editor.document import PdfDocument
 from fluo.editor.editor import EditorWidget

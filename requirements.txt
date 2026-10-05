@@ -1,2 +1,5 @@
-PySide6>=6.6
-PyMuPDF>=1.24
+PySide6>=6.6; python_version >= "3.9"
+PyMuPDF>=1.24; python_version >= "3.9"
+# Build legacy (Windows 7/8, 32 bits): Python 3.8 + Qt 5
+PySide2==5.15.2.1; python_version < "3.9"
+PyMuPDF==1.24.11; python_version < "3.9"

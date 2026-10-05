@@ -2,6 +2,7 @@
 ; Compilar desde la raíz del repo, después de PyInstaller:
 ;   iscc /DMyAppVersion=0.1.0 installer\fluo.iss
 ; Instala por usuario (sin administrador) en %LOCALAPPDATA%\Programs\Fluo.
+; Build universal de 32 bits: Windows 7 SP1, 8, 8.1, 10 y 11, de 32 o 64 bits.
 
 #ifndef MyAppVersion
   #define MyAppVersion "0.0.0"
@@ -31,9 +32,8 @@ UninstallDisplayIcon={app}\{#MyAppExeName}
 Compression=lzma2
 SolidCompression=yes
 WizardStyle=modern
-ArchitecturesAllowed=x64compatible
-ArchitecturesInstallIn64BitMode=x64compatible
-MinVersion=10.0
+; Windows 7 SP1 en adelante. El build publicado es de 32 bits, asi que corre tambien en Windows de 64 bits.
+MinVersion=6.1sp1
 CloseApplications=yes
 RestartApplications=no
 ChangesAssociations=yes

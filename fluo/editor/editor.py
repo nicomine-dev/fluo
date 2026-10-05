@@ -3,31 +3,43 @@ from __future__ import annotations
 
 import os
 
-from PySide6.QtCore import QSize, Qt, QTimer, Signal
-from PySide6.QtGui import QAction, QActionGroup, QColor, QIcon, QKeySequence, QPainter, QPixmap
-from PySide6.QtWidgets import (
+from typing import Dict, List, Tuple
+
+from ..qt import (
+    QAction,
+    QActionGroup,
     QApplication,
     QButtonGroup,
+    QColor,
     QColorDialog,
     QFileDialog,
+    QIcon,
+    QKeySequence,
     QLabel,
     QMainWindow,
     QMessageBox,
+    QPainter,
+    QPixmap,
+    QSize,
     QSizePolicy,
     QSlider,
     QSpinBox,
     QStyle,
+    Qt,
+    QTimer,
     QToolBar,
     QToolButton,
     QWidget,
+    Signal,
+    exec_,
 )
 
 from .document import PdfDocument
 from .view import PdfView, Tool
 
-RGB = tuple[float, float, float]
+RGB = Tuple[float, float, float]
 
-PALETTE: list[tuple[RGB, str]] = [
+PALETTE: List[Tuple[RGB, str]] = [
     ((1.0, 0.92, 0.23), "Amarillo"),
     ((0.55, 0.9, 0.35), "Verde"),
     ((0.45, 0.78, 1.0), "Celeste"),
@@ -38,16 +50,16 @@ PALETTE: list[tuple[RGB, str]] = [
     ((0.12, 0.12, 0.12), "Negro"),
 ]
 YELLOW, RED, BLUE = PALETTE[0][0], PALETTE[5][0], PALETTE[6][0]
-DEFAULT_COLORS: dict[Tool, RGB] = {
+DEFAULT_COLORS: Dict[Tool, RGB] = {
     Tool.HIGHLIGHT: YELLOW,
     Tool.UNDERLINE: RED,
     Tool.STRIKEOUT: RED,
     Tool.PEN: BLUE,
     Tool.MARKER: YELLOW,
 }
-DEFAULT_WIDTHS: dict[Tool, float] = {Tool.PEN: 2.0, Tool.MARKER: 14.0}
+DEFAULT_WIDTHS: Dict[Tool, float] = {Tool.PEN: 2.0, Tool.MARKER: 14.0}
 
-TOOLS: list[tuple[Tool, str, str, str]] = [
+TOOLS: List[Tuple[Tool, str, str, str]] = [
     (Tool.PAN, "Mano", "V", "Mover la página y hacer scroll"),
     (Tool.HIGHLIGHT, "Resaltar", "H", "Resaltar texto: arrastrá sobre las palabras"),
     (Tool.UNDERLINE, "Subrayar", "U", "Subrayar texto: arrastrá sobre las palabras"),
@@ -137,7 +149,7 @@ class EditorWidget(QMainWindow):
         top.addSeparator()
 
         save = QAction(style.standardIcon(QStyle.SP_DialogSaveButton), "Guardar", self)
-        save.setShortcut(QKeySequence.Save)
+        save.setShortcut(QKeySequence(QKeySequence.Save))
         save.setToolTip("Guardar las marcas (Ctrl+S)")
         save.triggered.connect(self.save)
         top.addAction(save)
@@ -149,18 +161,18 @@ class EditorWidget(QMainWindow):
         top.addSeparator()
 
         undo = self.view.undo_stack.createUndoAction(self, "Deshacer")
-        undo.setShortcut(QKeySequence.Undo)
+        undo.setShortcut(QKeySequence(QKeySequence.Undo))
         redo = self.view.undo_stack.createRedoAction(self, "Rehacer")
-        redo.setShortcuts([QKeySequence.Redo, QKeySequence("Ctrl+Shift+Z")])
+        redo.setShortcuts([QKeySequence(QKeySequence.Redo), QKeySequence("Ctrl+Shift+Z")])
         top.addAction(undo)
         top.addAction(redo)
         top.addSeparator()
 
         zoom_out = QAction("Zoom −", self)
-        zoom_out.setShortcut(QKeySequence.ZoomOut)
+        zoom_out.setShortcut(QKeySequence(QKeySequence.ZoomOut))
         zoom_out.triggered.connect(self.view.zoom_out)
         zoom_in = QAction("Zoom +", self)
-        zoom_in.setShortcut(QKeySequence.ZoomIn)
+        zoom_in.setShortcut(QKeySequence(QKeySequence.ZoomIn))
         zoom_in.triggered.connect(self.view.zoom_in)
         fit = QAction("Ajustar ancho", self)
         fit.setShortcut(QKeySequence("Ctrl+0"))
@@ -334,7 +346,7 @@ class EditorWidget(QMainWindow):
             over_btn = box.addButton("Sobrescribir original", QMessageBox.DestructiveRole)
             box.addButton(QMessageBox.Cancel)
             box.setDefaultButton(copy_btn)
-            box.exec()
+            exec_(box)
             clicked = box.clickedButton()
             if clicked is copy_btn:
                 return self.save_as()
@@ -387,7 +399,7 @@ class EditorWidget(QMainWindow):
         discard_btn = box.addButton("Descartar", QMessageBox.DestructiveRole)
         box.addButton(QMessageBox.Cancel)
         box.setDefaultButton(save_btn)
-        box.exec()
+        exec_(box)
         clicked = box.clickedButton()
         if clicked is save_btn:
             return self.save()

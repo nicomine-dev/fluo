@@ -10,7 +10,7 @@ import sys
 import tempfile
 import urllib.request
 
-from PySide6.QtCore import QThread, Signal
+from .qt import QThread, Signal
 
 from . import APP_NAME, GITHUB_REPO, __version__
 

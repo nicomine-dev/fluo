@@ -6,3 +6,4 @@ dist/
 .pytest_cache/
 *.log
 *.egg-info/
+.py38/

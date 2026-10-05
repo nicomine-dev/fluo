@@ -4,14 +4,17 @@ from __future__ import annotations
 import logging
 import os
 
-from PySide6.QtCore import QSettings, QTimer, Qt
-from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import (
+from .qt import (
     QApplication,
+    QIcon,
     QMainWindow,
     QMessageBox,
     QProgressDialog,
+    QSettings,
     QStackedWidget,
+    Qt,
+    QTimer,
+    exec_,
 )
 
 from . import APP_NAME, __version__
@@ -145,7 +148,7 @@ class MainWindow(QMainWindow):
         yes = box.addButton("Actualizar ahora", QMessageBox.AcceptRole)
         box.addButton("Más tarde", QMessageBox.RejectRole)
         box.setDefaultButton(yes)
-        box.exec()
+        exec_(box)
         if box.clickedButton() is yes:
             self._download_update(info)
 

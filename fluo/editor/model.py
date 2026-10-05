@@ -9,10 +9,11 @@ from __future__ import annotations
 import uuid
 from dataclasses import dataclass, field
 from enum import Enum
+from typing import Tuple, Union
 
-RGB = tuple[float, float, float]
-Rect = tuple[float, float, float, float]  # x0, y0, x1, y1
-Point = tuple[float, float]
+RGB = Tuple[float, float, float]
+Rect = Tuple[float, float, float, float]  # x0, y0, x1, y1
+Point = Tuple[float, float]
 
 
 def _new_id() -> str:
@@ -48,7 +49,7 @@ class InkStroke:
     id: str = field(default_factory=_new_id)
 
 
-Annotation = TextMark | InkStroke
+Annotation = Union[TextMark, InkStroke]
 
 
 def union_rect(a: Rect, b: Rect) -> Rect:
