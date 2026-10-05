@@ -1,4 +1,4 @@
-# Instalador en un paso de Fluo.
+﻿# Instalador en un paso de Fluo.
 # Baja el último release de GitHub y lo instala para el usuario actual (sin administrador).
 #
 # Uso (PowerShell):
@@ -38,7 +38,9 @@ Invoke-WebRequest -Uri $asset.browser_download_url -OutFile $out -UseBasicParsin
 Unblock-File -Path $out -ErrorAction SilentlyContinue
 
 Write-Host "  Instalando ..."
-$proc = Start-Process -FilePath $out -ArgumentList "/SILENT", "/SP-", "/NORESTART" -Wait -PassThru
+# WaitForExit() espera solo al instalador: con -Wait, PowerShell esperaria tambien a la app que el instalador abre.
+$proc = Start-Process -FilePath $out -ArgumentList "/SILENT", "/SP-", "/NORESTART" -PassThru
+$proc.WaitForExit()
 if ($proc.ExitCode -ne 0) {
     Write-Host "  El instalador terminó con código $($proc.ExitCode)." -ForegroundColor Red
     exit $proc.ExitCode
